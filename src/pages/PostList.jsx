@@ -1,14 +1,52 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
 import axios from "axios";
 
 function PostList() {
+  const [posts, setPosts] = useState([]);
+
   useEffect(() => {
     axios.get("http://localhost:3000/post").then((res) => {
-      const response = res.data;
-      console.log(response);
+      const response = res.data.data;
+
+      setPosts(response);
     });
   }, []);
-  return <h1>Post list</h1>;
+
+  // /imgs/posts/ciambellone.jpg
+  const getImageURL = (path) => {
+    return `http://localhost:3000${path}`;
+  };
+
+  return (
+    <>
+      <h1>Post List</h1>
+      <div className="container">
+        <div className="row">
+          {posts.map((post) => (
+            <div className="col-4 my-3">
+              <div className="card h-100 g-2 ">
+                <img
+                  className="card-img"
+                  src={getImageURL(post.image)}
+                  alt=""
+                />
+
+                <div className="card-body bg-light ">
+                  <div className="card-title mb-3">
+                    <h1 className="fs-2 fw-bold text-info">{post.title}</h1>
+                  </div>
+
+                  <div className="card-text  text-info">{post.content}</div>
+                  <div className="card-text  text-info">{post.tags}</div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
+  );
 }
 
 export default PostList;
