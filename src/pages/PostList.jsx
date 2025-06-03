@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import { NavLink } from "react-router-dom";
 import axios from "axios";
 
 function PostList() {
@@ -23,8 +23,8 @@ function PostList() {
       <h1>Post List</h1>
       <div className="container">
         <div className="row">
-          {posts.map((post) => (
-            <div className="col-4 my-3">
+          {posts.map((post, index) => (
+            <div key={index} className="col-4 my-3">
               <div className="card h-100 g-2 ">
                 <img
                   className="card-img"
@@ -41,6 +41,12 @@ function PostList() {
                   <div className="card-text  text-info">{post.tags}</div>
                 </div>
               </div>
+              <NavLink
+                to={`/PostDetail/${post.id}`}
+                className="btn btn-primary my-3"
+              >
+                Vedi Dettagli
+              </NavLink>
             </div>
           ))}
         </div>
